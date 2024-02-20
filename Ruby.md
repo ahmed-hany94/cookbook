@@ -3,6 +3,7 @@
 ## Table of Contents:
 - [Types](#types)
 - [Type Conversions](#type-conversions)
+- [String](#string)
 - [Array](#array)
 - [Hash](#hash)
 - [Class](#class)
@@ -53,6 +54,13 @@
     "1".intern               # :"1"
     1.to_r                   # (1/1)
     1.to_c                   # (1+0i)
+```
+## String
+```ruby
+    "%05d" % 123                            # "00123"
+    "%-5s: %08x" % [ "ID", self.object_id ] # "ID   : 200e14d6"
+    "foo = %{foo}" % { :foo => 'bar' }      # "foo = bar"
+    "Ho! " * 3                              # "Ho! Ho! Ho! "
 ```
 
 ## Array
@@ -189,15 +197,35 @@
 ## Class
 ```ruby
 class A
-  def initialize(name)
-    @name = name
-  end
+    MY_CONST = 42
+    @@c_var = 22
+    attr_accessor :name # To create getter and setter for :name
+    def initialize(name)
+        @name = name
+    end
 
-  def a
-    puts "@name = #{@name}"
-  end
+    def a
+        puts "@name = #{@name}"
+    end
+
+    def self.class_method
+        puts "This is a class method"
+    end
+
+    def A.another_class_method
+        puts "This is another class method"
+    end
 end
 
 a = A.new("a")
-a.a              # @name = a
+puts a.name                  # a (Getter Method)
+a.name = "a"                 #   (Setter Method)
+a.a                          # @name = a
+puts A::MY_CONST             # 42
+puts A.class_method          # This is a class method
+puts A::class_method         # This is a class method
+puts A.another_class_method  # This is a class method
+puts A::another_class_method # This is a class method
+puts A.c_var                 # Error: undefined method
+puts A::c_var                # Error: undefined method
 ```
